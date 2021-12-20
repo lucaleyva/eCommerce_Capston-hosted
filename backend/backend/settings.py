@@ -8,22 +8,25 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-import os
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#u)bjxu%)9_#*33!kc5o%of*c!8*akhj!*5x15awa@w$6yh!b@'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -84,6 +87,7 @@ SIMPLE_JWT = {
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -125,7 +129,7 @@ DATABASES = {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'ecommerce_database',
         'USER': 'luca',
-        'PASSWORD': '3e4r#E$R56',
+        'PASSWORD': os.getenv('DB_PASS'),
         'HOST': 'ecommerce-identifier.c1ux6bnzzboh.us-east-2.rds.amazonaws.com',
         'PORT': '3306',
         'OPTIONS': {
@@ -179,7 +183,8 @@ STATICFILES_DIRS = [
     BASE_DIR / 'frontend/build/static'
 ]
 
-MEDIA_ROOT = 'static/images'
+MEDIA_ROOT = BASE_DIR / 'static/images'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -188,7 +193,11 @@ AWS_QUERYSTRYING_AUTH = False
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
-AWS_S3_ACCESS_KEY_ID = 'AKIA6P2UYVC2B223XFVJ'
-AWS_S3_SECRET_ACCESS_KEY = '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'
+AWS_S3_ACCESS_KEY_ID = os.getenv('AWS_S3_ACCESS_KEY_ID'),
+AWS_S3_SECRET_ACCESS_KEY = os.getenv('AWS_S3_SECRET_ACCESS_KEY'),
 AWS_STORAGE_BUCKET_NAME = 'ecommerce-bucket-luca'
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+
+if os.getcwd() == '/app':
+    DEBUG = False

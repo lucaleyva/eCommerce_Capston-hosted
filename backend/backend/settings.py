@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     
     'rest_framework',
     'corsheaders',
+    'storages',
     
     'base.apps.BaseConfig',
         
@@ -182,7 +183,12 @@ MEDIA_ROOT = 'static/images'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AWS_QUERYSTRYING_AUTH = False
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+
+AWS_S3_ACCESS_KEY_ID = 'AKIA6P2UYVC2B223XFVJ'
+AWS_S3_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'ecommerce-bucket-luca'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'

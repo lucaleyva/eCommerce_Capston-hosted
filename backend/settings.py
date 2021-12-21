@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import django_heroku
 
 load_dotenv()
 
@@ -207,3 +208,5 @@ AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
 if os.getcwd() == '/app':
     DEBUG = False
+    
+django_heroku.settings(locals())
